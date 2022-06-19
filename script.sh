@@ -84,12 +84,36 @@ else
 	    		--update-charset)
 					check_secondary_arguments "${argsAndValues[$i]}" "${argsAndValues[$i+1]}" "${argsAndValues[$i+2]}"
 					charset="${argsAndValues[$i+1]}"
+
+					if grep -q "charset" ${argsAndValues[$i+2]}; then
+    					#replace description meta tag
+    					sed -i "s/<meta charset=\".*\" \/>/<meta charset=\"$charset\" \/>/g" ${argsAndValues[$i+2]}
+  					else
+    					#add description meta tag
+    					sed -i "s/<\/head>/<meta charset=\"$charset\" \/>\n<\/head>/g" ${argsAndValues[$i+2]}
+  					fi
 				--update-title)
 				  	check_secondary_arguments "${argsAndValues[$i]}" "${argsAndValues[$i+1]}" "${argsAndValues[$i+2]}"
 					title="${argsAndValues[$i+1]}"
+
+					if grep -q "title" ${argsAndValues[$i+2]}; then
+    					#replace description meta tag
+    					sed -i "s/<title>\".*\"\/><\/title>/<title>\"$title\"<\/title>/g" ${argsAndValues[$i+2]}
+  					else
+    					#add description meta tag
+    					sed -i "s/<\/head>/<meta charset=\"$charset\" \/>\n<\/head>/g" ${argsAndValues[$i+2]}
+  					fi
 				--update-description)
 					check_secondary_arguments "${argsAndValues[$i]}" "${argsAndValues[$i+1]}" "${argsAndValues[$i+2]}"
 					description="${argsAndValues[$i+1]}"
+
+					if grep -q "description" ${argsAndValues[$i+2]}; then
+    					#replace description meta tag
+    					sed -i "s/<meta name=\"description\" content=\".*\" \/>/<meta name=\"description\" content=\"$description\" \/>/g" ${argsAndValues[$i+2]}
+  					else
+    					#add description meta tag
+    					sed -i "s/<\/head>/<meta name=\"description\" content=\"$description\" \/>\n<\/head>/g" ${argsAndValues[$i+2]}
+  					fi
 				--add-stylesheet)
 				  	check_secondary_arguments "${argsAndValues[$i]}" "${argsAndValues[$i+1]}" "${argsAndValues[$i+2]}"
 				--add-script)
