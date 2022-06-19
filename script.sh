@@ -1,47 +1,73 @@
 #!/bin/sh
 
 
-# Checks if the file already exists thanks to the second argument given
-if [ -e "$2" ]; then
-
-  echo "Error: Already exist"
-
-  else
-
-    FILENAME=$2
-    touch "$FILENAME"
-
-fi
+# Checks if the file already exists
+function check_file_exists() {
+	if [ -f "$1" ]; then
+		echo "File $1 already exists"
+		exit 1
+	fi
+}
 
 
 # Checks if the user have rights on the file
-if [ ! -w "$2" ]; then
-
-  echo "Error: You don't have the right to modify this file"
-
-fi
+function check_file_rights() {
+	if [ ! -w "$1" ]; then
+		echo "You don't have rights on the file $1"
+		exit 1
+	fi
+}
 
 
 # Checks if the filename is empty
-if [ -z "$2" ]; then
+function check_filename() {
+	if [ -z "$1" ]; then
+		echo "Filename is empty"
+		exit 1
+	fi
+}
 
-    echo "Error: Filename is empty"
 
-fi
+# Main function
+argsAndValues=( "$@" )
+fileName=""
 
-
-# If the first argument is given the script create an another file which contain an HTML structure
-if  [ "$1" = "--create-html" ]; then
-    echo '<!DOCTYPE html>
-          <html lang="fr">
-            <head>
-              <meta charset="utf-8" />
-              <title>Titre de la page</title>
-              <link rel="stylesheet" href="style.css" />
-            </head>
-            <body></body>
-          </html>' > ./$2;
-
-          echo "Success : The file has been created"
-
+if [ $# -eq 0 ];
+then
+  echo "No arguments provided"
+  exit 1
+else
+  for ((i = 0; $[2 * i] < $#; i++ )); do 
+    case ${argsAndValues[$[2 * i]]} in
+	  --create-html)
+		fileName="${argsAndValues[$[2 * i + 1]]}.html"
+		check_filename "$fileName"
+		check_file_exists "$fileName"
+		check_file_rights "$fileName"
+		;;
+	  --update-charset)
+		echo "--update-charset"
+		echo "${argsAndValues[$[2 * i + 1]]}"
+		;;
+	  --update-title)
+	  	echo "--update-title"
+		echo "${argsAndValues[$[2 * i + 1]]}"
+		;;
+	  --update-description)
+	  	echo "--update-description"
+		echo "${argsAndValues[$[2 * i + 1]]}"
+		;;
+	  --add-stylesheet)
+	  	echo "--add-stylesheet"
+		echo "${argsAndValues[$[2 * i + 1]]}"
+		;;
+	  --add-script)
+	  	echo "--add-script"
+		echo "${argsAndValues[$[2 * i + 1]]}"
+		;;
+	  *) #TODO: This option repeat every time, must change
+		echo "Sorry, I don't understand"
+		;;
+    esac
+  done
 fi
