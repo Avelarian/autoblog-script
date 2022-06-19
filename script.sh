@@ -1,6 +1,7 @@
 #!/bin/sh
 
 
+# Checks if the file already exists thanks to the second argument given
 if [ -e "$2" ]; then
 
   echo "Error: Already exist"
@@ -12,12 +13,16 @@ if [ -e "$2" ]; then
 
 fi
 
+
+# Checks if the user have rights on the file
 if [ ! -w "$2" ]; then
 
   echo "Error: You don't have the right to modify this file"
 
 fi
 
+
+# Checks if the filename is empty
 if [ -z "$2" ]; then
 
     echo "Error: Filename is empty"
@@ -25,6 +30,7 @@ if [ -z "$2" ]; then
 fi
 
 
+# If the first argument is given the script create an another file which contain an HTML structure
 if  [ "$1" = "--create-html" ]; then
     echo '<!DOCTYPE html>
           <html lang="fr">
@@ -34,6 +40,8 @@ if  [ "$1" = "--create-html" ]; then
               <link rel="stylesheet" href="style.css" />
             </head>
             <body></body>
-          </html>' > ./$2
+          </html>' > ./$2;
+
+          echo "Success : The file has been created"
 
 fi
