@@ -14,12 +14,12 @@ if [ "$1" = "--add-stylesheet" ]; then
 	if [ -z "$3" ]; then
 		echo "Error: filename is empty"
 	else    
-    	FILENAME=$3
+    		FILENAME=$3
   	fi
 
 	# rights checks  
   	if [ ! -w "$FILENAME" ]; then
-	  echo "Error: not permission"
+		echo "Error: not permission"
 	fi
 
 
