@@ -86,11 +86,12 @@ else
 					charset="${argsAndValues[$i+1]}"
 
 					if grep -q "charset" ${argsAndValues[$i+2]}; then
-    					#replace description meta tag
+    					#replace meta charset tag
     					sed -i "s/<meta charset=\".*\" \/>/<meta charset=\"$charset\" \/>/g" ${argsAndValues[$i+2]}
   					else
-    					#add description meta tag
-    					sed -i "s/<\/head>/<meta charset=\"$charset\" \/>\n<\/head>/g" ${argsAndValues[$i+2]}
+    					#add meta charset tag
+					sed -i 'i\<head><meta charset="'$charset'" \/><\/head>' ${argsAndValues[$i+2]}
+    					
   					fi
 				--update-title)
 				  	check_secondary_arguments "${argsAndValues[$i]}" "${argsAndValues[$i+1]}" "${argsAndValues[$i+2]}"
@@ -116,6 +117,11 @@ else
   					fi
 				--add-stylesheet)
 				  	check_secondary_arguments "${argsAndValues[$i]}" "${argsAndValues[$i+1]}" "${argsAndValues[$i+2]}"
+					stylesheetUrl="${argsAndValues[$i+1]}"
+					
+					if ! grep -q "<link>" ${argsAndValues[$i+2]}; then
+						sed -i 'i\<head> <link rel="stylesheet" href="'$stylesheetUrl'"> ' ${argsAndValues[$i+2]}
+		
 				--add-script)
 				  	check_secondary_arguments "${argsAndValues[$i]}" "${argsAndValues[$i+1]}" "${argsAndValues[$i+2]}"
 	    		*)
