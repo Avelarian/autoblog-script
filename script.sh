@@ -33,6 +33,7 @@ argsAndValues=( "$@" )
 fileName=""
 description=""
 charset=""
+stylesheetUrl=""
 
 if [ $# -eq 0 ];
 then
@@ -58,8 +59,8 @@ else
 	  	description="${argsAndValues[$[2 * i + 1]]}"
 		;;
 	  --add-stylesheet)
-	  	echo "--add-stylesheet"
-		echo "${argsAndValues[$[2 * i + 1]]}"
+	  	check_argument "${argsAndValues[$[2 * i]]}" "${argsAndValues[$[2 * i + 1]]}"
+		stylesheetUrl="${argsAndValues[$[2 * i + 1]]}"
 		;;
 	  --add-script)
 	  	echo "--add-script"
