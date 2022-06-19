@@ -16,6 +16,11 @@ if [ "$1" = "--add-stylesheet" ]; then
 	else    
     		FILENAME=$3
   	fi
+	
+	#Check if the url is correct
+	if [ ! -f "$URL" ]; then
+	  echo "Error: url doesn't exist"
+	fi
 
 	# rights checks  
   	if [ ! -w "$FILENAME" ]; then
@@ -25,9 +30,7 @@ if [ "$1" = "--add-stylesheet" ]; then
 
 	#Insert link tag if there are not a link tag 
 	if ! grep -q "<link>" $FILENAME; then
-		sed -i 'i\<head> <link rel="stylesheet" href="'$URL'"> ' $FILENAME
-
-		
+		sed -i 'i\<head> <link rel="stylesheet" href="'$URL'"> ' $FILENAME	
 	fi
 	
 	exit 0
