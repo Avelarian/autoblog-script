@@ -32,6 +32,7 @@ function check_argument() {
 argsAndValues=( "$@" )
 fileName=""
 description=""
+charset=""
 
 if [ $# -eq 0 ];
 then
@@ -43,13 +44,10 @@ else
 	  --create-html)
 		check_argument "${argsAndValues[$[2 * i]]}" "${argsAndValues[$[2 * i + 1]]}"
 		fileName="${argsAndValues[$[2 * i + 1]]}.html"
-		check_file_exists "$fileName"
-		check_file_rights "$fileName"
-		touch "$fileName"
 		;;
 	  --update-charset)
-		echo "--update-charset"
-		echo "${argsAndValues[$[2 * i + 1]]}"
+	  	check_argument "${argsAndValues[$[2 * i]]}" "${argsAndValues[$[2 * i + 1]]}"
+		charset="${argsAndValues[$[2 * i + 1]]}"
 		;;
 	  --update-title)
 	  	echo "--update-title"
@@ -58,8 +56,6 @@ else
 	  --update-description)
 	  	check_argument "${argsAndValues[$[2 * i]]}" "${argsAndValues[$[2 * i + 1]]}"
 	  	description="${argsAndValues[$[2 * i + 1]]}"
-		check_file_exists "$fileName"
-		check_file_rights "$fileName"
 		;;
 	  --add-stylesheet)
 	  	echo "--add-stylesheet"
